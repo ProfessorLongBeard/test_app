@@ -1,0 +1,14 @@
+*.bak
+*.apk
+*.zip
+*.xml
+*.map
+*.idsig
+
+
+build/
+media/
+test_app/
+
+.cache/
+.keystore/
