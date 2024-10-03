@@ -35,6 +35,10 @@ CFLAGS			:= \
 	-Os \
 	-Wall \
 	-Wextra \
+	-Wno-unused-parameter \
+	-Wno-unused-function \
+	-Wno-unused-variable \
+	-Wno-unused-but-set-variable \
 	-fPIC \
 	-m64 \
 	-ffunction-sections \
@@ -43,6 +47,7 @@ CFLAGS			:= \
 	-DANDROID \
 	-DAPPNAME=\"$(APP_NAME)\" \
 	-DANDROIDVERSION=$(ANDROID_VERSION) \
+	-I$(LOCAL_PATH)/include \
 	-I$(ANDROID_NDK)/sysroot/usr/include \
 	-I$(ANDROID_NDK)/sysroot/usr/include/android \
 	-I$(ANDROID_NDK)/toolchains/llvm/prebuilt/$(OS_NAME)/sysroot/usr/include \
@@ -65,7 +70,8 @@ TARGETS			:= \
 	$(APP_NAME)/lib/arm64-v8a/lib$(APP_NAME).so
 
 ANDROID_SRC		:= \
-	$(LOCAL_PATH)/src/main.c
+	$(LOCAL_PATH)/src/main.c \
+	$(LOCAL_PATH)/src/android_glue.c
 
 
 
