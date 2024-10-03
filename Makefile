@@ -18,7 +18,7 @@ ANDROID_NDK			:= $(ANDROID_NDK_HOME)
 ANDROID_BUILD_TOOLS	:= $(ANDROID_HOME)/build-tools/35.0.0
 
 KEYSTORE_TYPE		:= test
-KEYSTORE_PATH		:= .$(LOCAL_PATH)/.keystore
+KEYSTORE_PATH		:= $(LOCAL_PATH)/.keystore
 KEYSTORE_FILE		:= $(KEYSTORE_PATH)/$(KEYSTORE_TYPE)-key.keystore
 KEYSTORE_DNAME		:= "CN=none, OU=ID, O=Specialist, L=Specialist, S=Specialist, C=GB"
 KEYSTORE_PASS		:= testapp_pass
