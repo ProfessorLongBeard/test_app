@@ -70,7 +70,6 @@ TARGETS			:= \
 	$(APP_NAME)/lib/arm64-v8a/lib$(APP_NAME).so
 
 ANDROID_SRC		:= \
-	$(LOCAL_PATH)/src/main.c \
 	$(LOCAL_PATH)/src/android_glue.c
 
 
@@ -85,10 +84,10 @@ app: clean create_dirs manifest $(APK_FILE)
 
 $(APK_FILE): $(TARGETS)
 	@rm -f *.apk
-	@mkdir -p $(APP_NAME)/assets/res/values
+	@mkdir -p $(APP_NAME)/res/values
 	@cp -Rf $(LOCAL_PATH)/sources/assets/ $(APP_NAME)/
 
-	@APP_NAME=$(APP_NAME) PACKAGE_NAME=$(PACKAGE_NAME) envsubst '$$APP_NAME $$PACKAGE_NAME' < $(LOCAL_PATH)/sources/res/values/strings.xml.in > $(LOCAL_PATH)/$(APP_NAME)/assets/res/values/strings.xml
+	@APP_NAME=$(APP_NAME) PACKAGE_NAME=$(PACKAGE_NAME) envsubst '$$APP_NAME $$PACKAGE_NAME' < $(LOCAL_PATH)/sources/res/values/strings.xml.in > $(LOCAL_PATH)/$(APP_NAME)/res/values/strings.xml
 
 	@$(AAPT) package -f -F tmp.apk -I $(ANDROID_SDK)/platforms/android-$(ANDROID_VERSION)/android.jar -M $(LOCAL_PATH)/AndroidManifest.xml -S $(LOCAL_PATH)/sources/res -A $(APP_NAME)/assets -v --target-sdk-version $(ANDROID_VERSION)
 
@@ -127,5 +126,13 @@ keystore:
 create_dirs:
 	@mkdir -p $(APP_NAME)/lib/arm64-v8a
 
+
+install:
+	@adb install -r $(APK_FILE)
+
+run: install
+	@$(eval ACTIVITY_NAME := $(shell $(AAPT) dump badging $(APK_FILE) | grep "launchable-activity" | cut -f 2 -d"'"))
+	@adb shell am start -n $(PACKAGE_NAME)/$(ACTIVITY_NAME)
+
 clean:
-	@rm -rf *.map *.idsig *.apk media/ $(APP_NAME)/
+	@rm -rf *.map *.idsig *.apk *.xml media/ $(APP_NAME)/
