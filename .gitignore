@@ -4,6 +4,7 @@
 *.xml
 *.map
 *.idsig
+*.json
 
 
 build/
